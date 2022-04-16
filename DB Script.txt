@@ -1,0 +1,42 @@
+CREATE TABLE users (
+	id serial PRIMARY KEY , 
+	name text 
+);
+
+CREATE TABLE cancelation_reasons (
+	id  serial PRIMARY KEY, 
+	reason text
+);
+
+
+
+CREATE TABLE paitents (
+	id  serial PRIMARY KEY, 
+	patientName text,
+	mobileNum int
+);
+
+	
+	
+CREATE TABLE appointments (
+	id serial PRIMARY KEY, 
+	appointmentDate Date Not Null,
+	paitentId INTEGER ,
+	cancellation_status boolean,
+	cancelation_reason_id INTEGER,
+	UNIQUE (paitentId),
+	UNIQUE(cancelation_reason_id)
+	
+);
+
+ALTER TABLE appointments
+    ADD CONSTRAINT fk_appointment_cancelation_reasons FOREIGN KEY (cancelation_reason_id) REFERENCES cancelation_reasons (id);
+	
+ALTER TABLE appointments
+    ADD CONSTRAINT fk_appointment_appointment FOREIGN KEY (paitentId) REFERENCES paitents (id);
+
+insert into users (name) values('admin');
+
+insert into cancelation_reasons(reason ) values('No_show');
+insert into cancelation_reasons(reason ) values('based on patient request');
+insert into cancelation_reasons(reason ) values('Physician apology');
